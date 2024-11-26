@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="node_modules/ol/ol.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="src/new-event.ts" type="module"></script>
+    <link rel="stylesheet" href="../../public/styles/style.css" />
 </head>
 
 <body>
@@ -61,9 +60,9 @@
                 <input type="file" class="form-control" id="image" name="image">
                 <div class="invalid-feedback">An image is required.</div>
             </div>
-            <img src="" alt="" id="imgPreview" class="img-thumbnail mb-3 d-none">
+            <!-- <img src="" alt="" id="imgPreview" class="img-thumbnail mb-3 d-none">
             <div id="autocomplete" class="autocomplete-container"></div>
-            <div id="map" class="mb-3"></div>
+            <div id="map" class="mb-3"></div> -->
             <div>
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <script src="src/login.ts" type="module"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../../public/styles/style.css" />
 </head>
 
 <body>
@@ -18,6 +18,7 @@
     </nav>
 
     <div class="container">
+        <?php include __DIR__ . '/show-error.part.view.php' ?>
         <form action="#" id="form-login" class="mt-4" method="POST" role="form">
             <legend>Welcome to SVTickets!</legend>
 

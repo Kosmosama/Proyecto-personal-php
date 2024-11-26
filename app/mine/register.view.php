@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <script src="src/register.ts" type="module"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../../public/styles/style.css" />
 </head>
 
 <body>
@@ -18,6 +18,7 @@
     </nav>
 
     <div class="container">
+        <?php include __DIR__ . '/show-error.part.view.php' ?>
         <form action="#" id="form-register" class="mt-4" method="POST" role="form">
             <legend>Create an account</legend>
 
@@ -37,7 +38,7 @@
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
             </div>
-            <div class="form-row">
+            <!-- <div class="form-row">
                 <div class="mb-3 col">
                     <label for="lat">Latitude:</label>
                     <input type="text" class="form-control" id="lat" name="lat" placeholder="Geolocating..." readonly />
@@ -46,13 +47,13 @@
                     <label for="lng">Longitude:</label>
                     <input type="text" class="form-control" id="lng" name="lng" placeholder="Geolocating..." readonly />
                 </div>
-            </div>
+            </div> -->
             <div class="mb-3">
                 <label for="avatar">Avatar image</label>
                 <input type="file" class="form-control" id="photo" name="photo" />
             </div>
-            <img src="" alt="" id="imgPreview" class="img-thumbnail d-none" />
-            <p class="text-danger" id="errorInfo"></p>
+            <!-- <img src="" alt="" id="imgPreview" class="img-thumbnail d-none" />
+            <p class="text-danger" id="errorInfo"></p> -->
             <a class="btn btn-secondary" href="login.html" role="button">Go back</a>
             <button type="submit" class="btn btn-primary">Create account</button>
         </form>

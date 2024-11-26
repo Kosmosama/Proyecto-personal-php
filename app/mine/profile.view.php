@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="node_modules/ol/ol.css">
-    <link rel="stylesheet" href="style.css" />
-    <script src="src/profile.ts" type="module"></script>
+    <link rel="stylesheet" href="../../public/styles/style.css" />
 </head>
 
 <body>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <script src="src/index.ts" type="module"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../../public/styles/style.css" />
 </head>
 
 <body>
@@ -60,9 +60,9 @@
         <div class="text-muted" id="filterInfo">Ordering by: distance. Searching by:</div>
 
         <div id="eventsContainer" class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-
+            <!-- #TODO Maybe add events with foreach on a require -->
         </div>
-        <div class="mb-4"><button id="loadMore" class="btn btn-primary">Load More events</button></div>
+        <!-- <div class="mb-4"><button id="loadMore" class="btn btn-primary">Load More events</button></div> -->
     </div>
 
     <template id="eventTemplate">
@@ -75,27 +75,27 @@
                     </h4>
                     <p class="card-text">description</p>
                     <div class="row">
-                        <!-- Remove this div if event is not mine -->
+                        <!--#TODO Remove this div if event is not mine -->
                         <div class="col">
                             <button class="btn btn-danger delete"><i class="bi bi-trash"></i></button>
                         </div>
-                        <div class="col-auto ms-auto">
+                        <!-- <div class="col-auto ms-auto">
                             <div class="text-end attend-users"><i class="bi bi-people-fill"></i> 0</div>
                             <div class="text-success text-end m-0 attend-button"><i class="bi bi-hand-thumbs-up-fill"></i> I'm going</div>
-                            <!-- Change to bi-hand-thumbs-down-fill if the user is not attending the event  -->
-                        </div>
+                            Change to bi-hand-thumbs-down-fill if the user is not attending the event
+                        </div> -->
                     </div>
                 </div>
                 <div class="card-footer text-muted row m-0">
-                    <div class="col-auto avatar pl-1 pr-1">
+                    <!-- <div class="col-auto avatar pl-1 pr-1">
                         <a href="">
                             <img src="" class="rounded-circle" />
                         </a>
-                    </div>
-                    <div class="col">
+                    </div> -->
+                    <!-- <div class="col">
                         <div class="name"><a href="">creator.name</a></div>
                         <div class="date small text-muted">date</div>
-                    </div>
+                    </div> -->
                     <div class="col-auto text-end text-muted">
                         <div class="price small">€0.00</div>
                         <div class="distance small">0 km</div>

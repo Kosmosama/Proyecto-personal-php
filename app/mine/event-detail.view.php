@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="node_modules/ol/ol.css">
     <script src="src/event-detail.ts" type="module"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../../public/styles/style.css" />
 </head>
 
 <body>
@@ -35,20 +35,20 @@
 
     <div class="container mt-4">
         <div id="eventContainer" class="row">
-            <!-- Event HTML goes here -->
+            <!--#TODO Event HTML goes here -->
         </div>
 
-        <div class="card mt-4">
+        <!-- <div class="card mt-4">
             <div class="card-header bg-success text-white" id="address">Restaurant's address</div>
             <div id="map"></div>
-        </div>
+        </div> -->
 
-        <div class="card mt-4 mb-4">
+        <!-- <div class="card mt-4 mb-4">
             <div class="card-header bg-danger text-white" id="address">Attendees to the event</div>
             <ul class="list-group" id="userList">
-                <!-- Attendees go here. See the template at the bottom of this page -->
+                Attendees go here. See the template at the bottom of this page
             </ul>
-        </div>
+        </div> -->
 
         <!-- WE WON'T IMPLEMENT COMMENTS IN THE FIRST PROJECT -->
         <!-- <div class="card mt-4 mb-4">
@@ -62,7 +62,7 @@
 
     <template id="eventTemplate">
         <div class="col">
-            <div class="card shadow">
+            <div class="card h-100 shadow">
                 <a href=""><img class="card-img-top" src="" /></a>
                 <div class="card-body">
                     <h4 class="card-title">
@@ -70,27 +70,27 @@
                     </h4>
                     <p class="card-text">description</p>
                     <div class="row">
-                        <!-- Remove this div if event is not mine -->
+                        <!--#TODO Remove this div if event is not mine -->
                         <div class="col">
                             <button class="btn btn-danger delete"><i class="bi bi-trash"></i></button>
                         </div>
-                        <div class="col-auto ms-auto">
+                        <!-- <div class="col-auto ms-auto">
                             <div class="text-end attend-users"><i class="bi bi-people-fill"></i> 0</div>
                             <div class="text-success text-end m-0 attend-button"><i class="bi bi-hand-thumbs-up-fill"></i> I'm going</div>
-                            <!-- Change to bi-hand-thumbs-down-fill if the user is not attending the event  -->
-                        </div>
+                            Change to bi-hand-thumbs-down-fill if the user is not attending the event
+                        </div> -->
                     </div>
                 </div>
                 <div class="card-footer text-muted row m-0">
-                    <div class="col-auto avatar pl-1 pr-1">
+                    <!-- <div class="col-auto avatar pl-1 pr-1">
                         <a href="">
                             <img src="" class="rounded-circle" />
                         </a>
-                    </div>
-                    <div class="col">
+                    </div> -->
+                    <!-- <div class="col">
                         <div class="name"><a href="">creator.name</a></div>
                         <div class="date small text-muted">date</div>
-                    </div>
+                    </div> -->
                     <div class="col-auto text-end text-muted">
                         <div class="price small">€0.00</div>
                         <div class="distance small">0 km</div>
@@ -100,7 +100,7 @@
         </div>
     </template>
 
-    <template id="attendTemplate">
+    <!-- <template id="attendTemplate">
         <li class="list-group-item">
             <a class="avatar" href="">
                 <img class="rounded-circle float-start me-3" style="width: 40px;" src="" alt="" />
@@ -129,7 +129,7 @@
                 </div>
             </div>
         </li>
-    </template>
+    </template> -->
 </body>
 
 </html>
