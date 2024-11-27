@@ -41,7 +41,7 @@ class Evento implements IEntity
     public function setPrecio($precio): Evento { $this->precio = $precio; return $this; }
     public function setImagen($imagen): Evento { $this->imagen = $imagen; return $this; }
 
-    public function getUrlSubidas() { return self::RUTA_IMAGENES_SUBIDAS . $this->getNombre(); }
+    public function getUrlSubidas() { return self::RUTA_IMAGENES_SUBIDAS . $this->getImagen(); }
 
     public function __toString()
     {

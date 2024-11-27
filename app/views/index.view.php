@@ -1,17 +1,13 @@
 <div class="container">
-    <!--Optional-->
     <nav class="navbar navbar-light bg-light justify-content-between mt-3">
         <div class="container-fluid justify-content-start">
             <span>Order:</span>
             <ul class="nav flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="orderDate">Date</a>
+                    <a class="nav-link" href="#" id="orderAlph">Alphabetically</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" id="orderPrice">Price</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="orderDistance">Distance</a>
+                    <a class="nav-link" href="#" id="orderPrice">By price</a>
                 </li>
             </ul>
             <div class="d-flex mb-0">
@@ -22,50 +18,13 @@
         </div>
     </nav>
 
-    <div class="text-muted" id="filterInfo">Ordering by: distance. Searching by:</div>
+    <div class="text-muted" id="filterInfo">Ordering: alphabetically. Searching by: </div>
 
     <div id="eventsContainer" class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-        <!-- #TODO Maybe add events with foreach on a require -->
+        <?php foreach ($eventos as $evento) : ?>
+            <?php
+            include __DIR__ . '/event.part.php';
+            ?>
+        <?php endforeach; ?>
     </div>
-    <!-- <div class="mb-4"><button id="loadMore" class="btn btn-primary">Load More events</button></div> -->
 </div>
-
-<template id="eventTemplate">
-    <div class="col">
-        <div class="card h-100 shadow">
-            <a href=""><img class="card-img-top" src="" /></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a class="text-decoration-none" href="">title</a>
-                </h4>
-                <p class="card-text">description</p>
-                <div class="row">
-                    <!--#TODO Remove this div if event is not mine -->
-                    <div class="col">
-                        <button class="btn btn-danger delete"><i class="bi bi-trash"></i></button>
-                    </div>
-                    <!-- <div class="col-auto ms-auto">
-                        <div class="text-end attend-users"><i class="bi bi-people-fill"></i> 0</div>
-                        <div class="text-success text-end m-0 attend-button"><i class="bi bi-hand-thumbs-up-fill"></i> I'm going</div>
-                        Change to bi-hand-thumbs-down-fill if the user is not attending the event
-                    </div> -->
-                </div>
-            </div>
-            <div class="card-footer text-muted row m-0">
-                <!-- <div class="col-auto avatar pl-1 pr-1">
-                    <a href="">
-                        <img src="" class="rounded-circle" />
-                    </a>
-                </div> -->
-                <!-- <div class="col">
-                    <div class="name"><a href="">creator.name</a></div>
-                    <div class="date small text-muted">date</div>
-                </div> -->
-                <div class="col-auto text-end text-muted">
-                    <div class="price small">€0.00</div>
-                    <div class="distance small">0 km</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>

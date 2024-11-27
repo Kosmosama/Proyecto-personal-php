@@ -1,6 +1,8 @@
 <div class="container mt-4">
     <div id="eventContainer" class="row">
-        <!--#TODO Event HTML goes here -->
+        <?php
+        include __DIR__ . '/event.part.php';
+        ?>
     </div>
 
     <!-- <div class="card mt-4">

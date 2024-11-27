@@ -16,26 +16,24 @@ use kosmoproyecto\core\Response;
 class PagesController
 {
     public function index()
-    {   
-        // Pasarle todos los eventos de la bbdd
+    {
+        $eventos = App::getRepository(EventosRepository::class)->findAll();
+
         Response::renderView(
             'index',
-            'layout'
-            );
+            'layout',
+            compact('eventos'),
+        );
     }
 
     public function eventDetail($id)
     {
-        // $imagenesRepository = App::getRepository(ImagenesRepository::class);
-        // $imagen = $imagenesRepository->find($id);
-        // Response::renderView(
-        //     'imagen-show',
-        //     'layout',
-        //     compact('imagen', 'imagenesRepository')
-        // );
+        $evento = App::getRepository(EventosRepository::class)->find($id);
+
         Response::renderView(
             'event-detail',
-            'layout'
+            'layout',
+            compact('evento'),
         );
     }
 
