@@ -1,5 +1,5 @@
 <div class="container">
-    <?php include __DIR__ . '/show-error.part.view.php' ?>
+    <?php include __DIR__ . '/show-error.part.php' ?>
     <form action="/check-login" id="form-login" class="mt-4" method="POST" role="form">
         <legend>Welcome to SVTickets!</legend>
 

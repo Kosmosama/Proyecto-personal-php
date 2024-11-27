@@ -2,12 +2,16 @@
 namespace kosmoproyecto\app\controllers;
 
 use kosmoproyecto\app\entity\Evento;
+use kosmoproyecto\app\entity\Usuario;
+use kosmoproyecto\app\exceptions\FileException;
 use kosmoproyecto\app\exceptions\ValidationException;
 use kosmoproyecto\app\repository\EventosRepository;
+use kosmoproyecto\app\repository\UsuariosRepository;
 use kosmoproyecto\app\utils\File;
 use kosmoproyecto\core\App;
 use kosmoproyecto\core\helpers\FlashMessage;
 use kosmoproyecto\core\Response;
+use kosmoproyecto\core\Security;
 
 class PagesController
 {
@@ -107,11 +111,107 @@ class PagesController
 
     public function profile()
     {
-        // No se si poner esto aqui o en authController
-        // Hacer que se pueda cambiar la password, el usuario y la imagen
+        $errores = FlashMessage::get('update-error', []);
+        $mensaje = FlashMessage::get('mensaje');
         Response::renderView(
             'profile',
-            'layout'
+            'layout',
+            compact('errores'),
         );
+    }
+
+    public function updateUsername()
+    {
+        try {
+            $usuarioId = $_SESSION['loguedUser'];
+
+            $nuevoUsername = $_POST['username'] ?? null;
+            if (empty($nuevoUsername)) {
+                throw new ValidationException('El nombre de usuario no puede estar vacío.');
+            }
+
+            $usuarioRepo = App::getRepository(UsuariosRepository::class);
+            $usuario = $usuarioRepo->getUsuarioPorId($usuarioId);
+
+            $usuarioExistente = $usuarioRepo->findOneBy(['username' => $nuevoUsername]);
+            if ($usuarioExistente !== null) {
+                throw new ValidationException('El nombre de usuario ya está en uso.');
+            }
+
+            $usuario->setUsername($nuevoUsername);
+            $usuarioRepo->update($usuario);
+
+            $_SESSION['loguedUser'] = $usuario->getId();
+            FlashMessage::set('success', 'Nombre de usuario actualizado correctamente.');
+
+            App::get('router')->redirect('profile');
+        } catch (ValidationException $validationException) {
+            FlashMessage::set('update-error', [$validationException->getMessage()]);
+            App::get('router')->redirect('profile?view=editProfile');
+        }
+    }
+
+    public function updatePassword()
+    {
+        try {
+            $usuarioId = $_SESSION['loguedUser'];
+
+            $nuevaPassword = $_POST['password'] ?? null;
+            $repetirPassword = $_POST['password2'] ?? null;
+
+            if (empty($nuevaPassword) || empty($repetirPassword)) {
+                throw new ValidationException('Las contraseñas no pueden estar vacías.');
+            }
+
+            if ($nuevaPassword !== $repetirPassword) {
+                throw new ValidationException('Las contraseñas no coinciden.');
+            }
+
+            $usuarioRepo = App::getRepository(UsuariosRepository::class);
+            $usuario = $usuarioRepo->getUsuarioPorId($usuarioId);
+
+            $usuario->setPassword(Security::encrypt($nuevaPassword));
+            $usuarioRepo->update($usuario);
+
+            App::get('router')->redirect('profile');
+        } catch (ValidationException $validationException) {
+            FlashMessage::set('update-error', [$validationException->getMessage()]);
+            App::get('router')->redirect('profile?view=editPassword');
+        }
+    }
+
+    public function updateImage()
+    {
+        try {
+            $usuarioId = $_SESSION['loguedUser'];
+            $usuarioRepo = App::getRepository(UsuariosRepository::class);
+            $usuario = $usuarioRepo->getUsuarioPorId($usuarioId);
+
+            // Tipos de archivos permitidos
+            $tiposAceptados = ['image/jpeg', 'image/gif', 'image/png'];
+            $nuevaImagen = new File('avatar', $tiposAceptados);
+
+            // Guardar la nueva imagen en el servidor
+            $nuevaImagen->saveUploadFile(Usuario::RUTA_IMAGENES_PERFIL);
+
+            // Eliminar la imagen anterior, si existe
+            $rutaImagenAnterior = $_SERVER['DOCUMENT_ROOT'] . '/' . Usuario::RUTA_IMAGENES_PERFIL . $usuario->getImagen();
+            if (is_file($rutaImagenAnterior)) {
+                unlink($rutaImagenAnterior);
+            }
+
+            // Actualizar la información del usuario
+            $usuario->setImagen($nuevaImagen->getFileName());
+            $usuarioRepo->update($usuario);
+
+            FlashMessage::set('success', 'Imagen de perfil actualizada correctamente.');
+            App::get('router')->redirect('profile');
+        } catch (FileException $fileException) {
+            FlashMessage::set('update-error', [$fileException->getMessage()]);
+            App::get('router')->redirect('profile?view=editProfile');
+        } catch (ValidationException $validationException) {
+            FlashMessage::set('update-error', [$validationException->getMessage()]);
+            App::get('router')->redirect('profile?view=editProfile');
+        }
     }
 }

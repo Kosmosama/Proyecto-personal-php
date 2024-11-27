@@ -1,5 +1,5 @@
 <div class="container">
-    <?php include __DIR__ . '/show-error.part.view.php' ?>
+    <?php include __DIR__ . '/show-error.part.php' ?>
     <form action="/add-event" method="POST" class="mt-4" id="newEvent" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="nombre" class="form-label">Title</label>

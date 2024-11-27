@@ -1,5 +1,5 @@
 <div class="container">
-    <?php include __DIR__ . '/show-error.part.view.php' ?>
+    <?php include __DIR__ . '/show-error.part.php' ?>
     <form action="/check-register" id="form-register" class="mt-4" method="POST" role="form" enctype="multipart/form-data">
         <legend>Create an account</legend>
 
