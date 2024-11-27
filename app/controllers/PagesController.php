@@ -2,55 +2,107 @@
 namespace kosmoproyecto\app\controllers;
 
 use kosmoproyecto\app\entity\Asociado;
+use kosmoproyecto\app\entity\Evento;
 use kosmoproyecto\app\entity\Imagen;
+use kosmoproyecto\app\exceptions\ValidationException;
 use kosmoproyecto\app\repository\AsociadosRepository;
+use kosmoproyecto\app\repository\EventosRepository;
 use kosmoproyecto\app\repository\ImagenesRepository;
+use kosmoproyecto\app\utils\File;
 use kosmoproyecto\core\App;
+use kosmoproyecto\core\helpers\FlashMessage;
 use kosmoproyecto\core\Response;
 
 class PagesController
 {
     public function index()
-    {
-        $asociados = [
-            new Asociado("Asociado 1", "log1.jpg", "Descripción del asociado 1"),
-            new Asociado("Asociado 2", "log2.jpg", "Descripción del asociado 2"),
-            new Asociado("Asociado 3", "log3.jpg", "Descripción del asociado 3")
-        ];
-
-        $imagenesHome = App::getRepository(ImagenesRepository::class)->findAll();
-        
+    {   
+        // Pasarle todos los eventos de la bbdd
         Response::renderView(
             'index',
-            'layout',
-            compact ( 'imagenesHome','asociados')
+            'layout'
             );
     }
-    public function about()
-    {
-        $imagenesClientes[] = new Imagen('client1.jpg', 'MISS BELLA');
-        $imagenesClientes[] = new Imagen('client2.jpg', 'DON PENO');
-        $imagenesClientes[] = new Imagen('client3.jpg', 'SWEETY');
-        $imagenesClientes[] = new Imagen('client4.jpg', 'LADY');
 
+    public function eventDetail($id)
+    {
+        // $imagenesRepository = App::getRepository(ImagenesRepository::class);
+        // $imagen = $imagenesRepository->find($id);
+        // Response::renderView(
+        //     'imagen-show',
+        //     'layout',
+        //     compact('imagen', 'imagenesRepository')
+        // );
         Response::renderView(
-            'about',
-            'layout',
-            compact('imagenesClientes')
+            'event-detail',
+            'layout'
         );
     }
-    public function blog()
+
+    public function newEvent()
     {
+        $errores = FlashMessage::get('new-event-error', []);
+        $mensaje = FlashMessage::get('mensaje');
         Response::renderView(
-            'blog',
-            'layout'
-            );
+            'new-event',
+            'layout',
+            compact('errores')
+        );
     }
-    public function post()
+
+    public function addEvent()
     {
+        try {
+            if (!isset($_POST['nombre']) || empty($_POST['nombre']))
+                throw new ValidationException('El titulo no puede estar vacio.');
+
+            FlashMessage::set('nombre', $_POST['nombre']);
+
+            if (!isset($_POST['description']) || empty($_POST['description']))
+                throw new ValidationException('La descripcion no puede estar vacia.');
+
+            FlashMessage::set('description', $_POST['description']);
+            
+            if (!isset($_POST['price']) || empty($_POST['price']))
+            throw new ValidationException('El precio no puede estar vacio.');
+            
+            FlashMessage::set('price', $_POST['price']);
+
+            $tiposAceptados = ['image/jpeg', 'image/gif', 'image/png'];
+            $image = new File('image', $tiposAceptados);
+
+            $image->saveUploadFile(Evento::RUTA_IMAGENES_SUBIDAS);
+
+            $evento = new Evento();
+            $evento->setNombre($_POST['nombre']);
+            $evento->setDescripcion($_POST['description']);
+            $evento->setPrecio($_POST['price']);
+            $evento->setImagen($image->getFileName());
+
+            App::getRepository(EventosRepository::class)->save($evento);
+
+            FlashMessage::unset('nombre');
+            FlashMessage::unset('description');
+            FlashMessage::unset('price');
+
+            $message = "Se ha creado el usuario: " . $evento->getNombre();
+            App::get('logger')->add($message);
+            FlashMessage::set('message', $message);
+
+            App::get('router')->redirect('');
+        } catch (ValidationException $validationException) {
+            FlashMessage::set('new-event-error', [$validationException->getMessage()]);
+            App::get('router')->redirect('new-event');
+        }
+    }
+
+    public function profile()
+    {
+        // No se si poner esto aqui o en authController
+        // Hacer que se pueda cambiar la password, el usuario y la imagen
         Response::renderView(
-            'single_post',
+            'profile',
             'layout'
-            );
+        );
     }
 }

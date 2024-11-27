@@ -4,10 +4,12 @@ namespace kosmoproyecto\app\controllers;
 
 use kosmoproyecto\app\entity\Imagen;
 use kosmoproyecto\app\entity\Usuario;
+use kosmoproyecto\app\exceptions\FileException;
 use kosmoproyecto\app\exceptions\ValidationException;
 use kosmoproyecto\app\repository\AsociadosRepository;
 use kosmoproyecto\app\repository\ImagenesRepository;
 use kosmoproyecto\app\repository\UsuariosRepository;
+use kosmoproyecto\app\utils\File;
 use kosmoproyecto\core\App;
 use kosmoproyecto\core\helpers\FlashMessage;
 use kosmoproyecto\core\Response;
@@ -19,7 +21,11 @@ class AuthController
     {
         $errores = FlashMessage::get('login-error', []);
         $username = FlashMessage::get('username');
-        Response::renderView('login', 'layout', compact('errores', 'username'));
+        Response::renderView(
+            'login',
+            'layout',
+            compact('errores', 'username')
+        );
     }
 
     public function logout()
@@ -57,39 +63,56 @@ class AuthController
         }
     }
 
-    public function registro()
+    public function register()
     {
-        $errores = FlashMessage::get('registro-error', []);
+        $errores = FlashMessage::get('register-error', []);
         $mensaje = FlashMessage::get('mensaje');
         $username = FlashMessage::get('username');
-        Response::renderView('registro', 'layout', compact('errores', 'username'));
+        Response::renderView(
+            'register', 
+            'layout', 
+            compact('errores', 'username')
+        );
     }
 
-    public function checkRegistro()
+    public function checkRegister()
     {
         try {
             if (!isset($_POST['username']) || empty($_POST['username']))
                 throw new ValidationException('El nombre de usuario no puede estar vacío');
 
             FlashMessage::set('username', $_POST['username']);
+
             if (!isset($_POST['password']) || empty($_POST['password']))
                 throw new ValidationException('El password de usuario no puede estar vacío');
-            if (!isset($_POST['re-password']) || empty($_POST['re-password']) || $_POST['password'] !== $_POST['re-password'])
+
+            if (!isset($_POST['repassword']) || empty($_POST['repassword']) || $_POST['password'] !== $_POST['repassword'])
                 throw new ValidationException('Los dos password deben ser iguales');
-            $password = Security::encrypt($_POST['password']);;
+
+            $password = Security::encrypt($_POST['password']);
+
+            $tiposAceptados = ['image/jpeg', 'image/gif', 'image/png'];
+            $avatar = new File('avatar', $tiposAceptados);
+
+            $avatar->saveUploadFile(Usuario::RUTA_IMAGENES_PERFIL);
+
             $usuario = new Usuario();
             $usuario->setUsername($_POST['username']);
             $usuario->setRole('ROLE_USER');
             $usuario->setPassword($password);
+            $usuario->setImagen($avatar->getFileName());
+
             App::getRepository(UsuariosRepository::class)->save($usuario);
+
             FlashMessage::unset('username');
             $mensaje = "Se ha creado el usuario: " . $usuario->getUsername();
             App::get('logger')->add($mensaje);
             FlashMessage::set('mensaje', $mensaje);
+
             App::get('router')->redirect('login');
         } catch (ValidationException $validationException) {
-            FlashMessage::set('registro-error', [$validationException->getMessage()]);
-            App::get('router')->redirect('registro');
+            FlashMessage::set('register-error', [$validationException->getMessage()]);
+            App::get('router')->redirect('register');
         }
     }
 }

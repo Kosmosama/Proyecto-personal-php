@@ -1,110 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-</head>
-
-<body id="page-top">
-
-    <!-- Principal Content Start -->
-    <div id="index">
-
-        <!-- Header -->
-        <div class="row">
-            <div class="col-xs-12 intro">
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img class="img-responsive" src="/../public/images/index/woman.jpg" alt="header picture">
-                    </div>
-                    <div class="carousel-caption">
-                        <h1>FIND NICE PICTURES HERE</h1>
-                        <hr>
-                    </div>
-                </div>
+<div class="container">
+    <!--Optional-->
+    <nav class="navbar navbar-light bg-light justify-content-between mt-3">
+        <div class="container-fluid justify-content-start">
+            <span>Order:</span>
+            <ul class="nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="orderDate">Date</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="orderPrice">Price</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="orderDistance">Distance</a>
+                </li>
+            </ul>
+            <div class="d-flex mb-0">
+                <input class="form-control me-2" type="text" name="search" id="searchInput" placeholder="Search"
+                    aria-label="Search">
+                <button type="button" class="btn btn-outline-primary border-0" id="searchBtn"><i class="bi bi-search"></i></button>
             </div>
         </div>
+    </nav>
 
-        <div id="index-body">
-            <!-- Pictures Navigation table -->
-            <div class="table-responsive">
-                <table class="table text-center">
-                    <thead>
-                        <tr>
-                            <td><a class="link active" href="#category1" data-toggle="tab">category I</a></td>
-                            <td><a class="link" href="#category2" data-toggle="tab">category II</a></td>
-                            <td><a class="link" href="#category3" data-toggle="tab">category III</a></td>
-                        </tr>
-                    </thead>
-                </table>
-                <hr>
-            </div>
+    <div class="text-muted" id="filterInfo">Ordering by: distance. Searching by:</div>
 
-            <!-- Navigation Table Content -->
-            <div class="tab-content">
+    <div id="eventsContainer" class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        <!-- #TODO Maybe add events with foreach on a require -->
+    </div>
+    <!-- <div class="mb-4"><button id="loadMore" class="btn btn-primary">Load More events</button></div> -->
+</div>
 
-                <!-- First Category pictures -->
-                <div id="category1" class="tab-pane active">
-                    <div class="row popup-gallery">
-                        <?php
-                        $idCategoria = 1;
-                        shuffle($imagenesHome);
-                        include __DIR__ . "/imagen-index.part.php";
-                        ?>
+<template id="eventTemplate">
+    <div class="col">
+        <div class="card h-100 shadow">
+            <a href=""><img class="card-img-top" src="" /></a>
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a class="text-decoration-none" href="">title</a>
+                </h4>
+                <p class="card-text">description</p>
+                <div class="row">
+                    <!--#TODO Remove this div if event is not mine -->
+                    <div class="col">
+                        <button class="btn btn-danger delete"><i class="bi bi-trash"></i></button>
                     </div>
+                    <!-- <div class="col-auto ms-auto">
+                        <div class="text-end attend-users"><i class="bi bi-people-fill"></i> 0</div>
+                        <div class="text-success text-end m-0 attend-button"><i class="bi bi-hand-thumbs-up-fill"></i> I'm going</div>
+                        Change to bi-hand-thumbs-down-fill if the user is not attending the event
+                    </div> -->
                 </div>
-
-                <!-- Second Category pictures -->
-                <div id="category2" class="tab-pane">
-                    <div class="row popup-gallery">
-                        <?php
-                        $idCategoria = 2;
-                        shuffle($imagenesHome);
-                        include __DIR__ . "/imagen-index.part.php";
-                        ?>
-                    </div>
-                </div>
-
-                <!-- Third Category pictures -->
-                <div id="category3" class="tab-pane">
-                    <div class="row popup-gallery">
-                        <?php
-                        $idCategoria = 3;
-                        shuffle($imagenesHome);
-                        include __DIR__ . "/imagen-index.part.php";
-                        ?>
-                    </div>
-                </div>
-                <nav class="text-center">
-                        <ul class="pagination">
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#" aria-label="suivant">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a></li>
-                        </ul>
-                    </nav>
             </div>
-
-            <!-- Newsletter form -->
-            <div class="index-form text-center">
-                <h3>SUSCRIBE TO OUR NEWSLETTER </h3>
-                <h5>Suscribe to receive our News and Gifts</h5>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-xs-12 col-sm-6 col-sm-push-3 col-md-4 col-md-push-4">
-                            <input class="form-control" type="text" placeholder="Type here your email address">
-                            <a href="" class="btn btn-lg sr-button">SUBSCRIBE</a>
-                        </div>
-                    </div>
-                </form>
+            <div class="card-footer text-muted row m-0">
+                <!-- <div class="col-auto avatar pl-1 pr-1">
+                    <a href="">
+                        <img src="" class="rounded-circle" />
+                    </a>
+                </div> -->
+                <!-- <div class="col">
+                    <div class="name"><a href="">creator.name</a></div>
+                    <div class="date small text-muted">date</div>
+                </div> -->
+                <div class="col-auto text-end text-muted">
+                    <div class="price small">€0.00</div>
+                    <div class="distance small">0 km</div>
+                </div>
             </div>
-            <!-- End of Newsletter form -->
-
-            <!-- Box within partners name and logo -->
-            <?php
-                require_once __DIR__ . "/indexlogos.view.part.php";
-            ?>
         </div>
     </div>
-</body>
-</html>
+</template>

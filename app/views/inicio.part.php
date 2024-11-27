@@ -1,13 +1,10 @@
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PhotographItem-Responsive Theme</title>
-
-<!-- Bootstrap core css -->
-<link rel="stylesheet" type="text/css" href="/../public/bootstrap/css/bootstrap.min.css">
-<!-- Bootstrap core css -->
-<link rel="stylesheet" type="text/css" href="/../public/css/style.css">
-<!-- Magnific-popup css -->
-<link rel="stylesheet" type="text/css" href="/../public/css/magnific-popup.css">
-<!-- Font Awesome icons -->
-<link rel="stylesheet" type="text/css" href="/../public/font-awesome/css/font-awesome.min.css">
+<head>
+    <title>SVTickets</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="node_modules/ol/ol.css">
+    <link rel="stylesheet" href="/../../public/styles/style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>

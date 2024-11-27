@@ -10,13 +10,17 @@ class Usuario implements IEntity
     private $username;
     private $password;
     private $role;
+    private $imagen;
 
-    public function __construct($username = "", $password = "", $role = "")
+    const RUTA_IMAGENES_PERFIL = '/public/images/imagenes_perfil/';
+
+    public function __construct($username = "", $password = "", $role = "", $imagen = "")
     {
         $this->id = null;
         $this->username = $username;
         $this->password = $password;
         $this->role = $role;
+        $this->imagen = $imagen;
     }
 
     public function getId(): ?int
@@ -39,6 +43,11 @@ class Usuario implements IEntity
         return $this->role;
     }
 
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+    
     public function setUsername($username)
     {
         $this->username = $username;
@@ -57,6 +66,14 @@ class Usuario implements IEntity
         return $this;
     }
 
+    public function setImagen($imagen)
+    {
+        $this->imagen = $imagen;
+        return $this;
+    }
+
+    public function getUrlPerfil() { return self::RUTA_IMAGENES_PERFIL . $this->getImagen(); }
+
     public function toArray(): array
     {
         return [
@@ -64,6 +81,7 @@ class Usuario implements IEntity
             'username' => $this->username,
             'password' => $this->password,
             'role' => $this->role,
+            'imagen' => $this->imagen,
         ];
     }
 }

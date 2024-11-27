@@ -53,6 +53,8 @@ class Router
 
     public function direct(string $uri, string $method): void
     {
+        // var_dump($uri, $method); 
+
         // Recorremos las rutas y separamos las dos partes: las rutas y sus controladores respectivamente
         foreach ($this->routes[$method] as $route => $routerData) {
             $controller = $routerData['controller'];
