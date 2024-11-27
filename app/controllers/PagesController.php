@@ -3,7 +3,9 @@ namespace kosmoproyecto\app\controllers;
 
 use kosmoproyecto\app\entity\Evento;
 use kosmoproyecto\app\entity\Usuario;
+use kosmoproyecto\app\exceptions\AppException;
 use kosmoproyecto\app\exceptions\FileException;
+use kosmoproyecto\app\exceptions\NotFoundException;
 use kosmoproyecto\app\exceptions\ValidationException;
 use kosmoproyecto\app\repository\EventosRepository;
 use kosmoproyecto\app\repository\UsuariosRepository;
@@ -43,13 +45,19 @@ class PagesController
 
     public function eventDetail($id)
     {
-        $evento = App::getRepository(EventosRepository::class)->find($id);
+        try {
+            $evento = App::getRepository(EventosRepository::class)->find($id);
 
-        Response::renderView(
-            'event-detail',
-            'layout',
-            compact('evento'),
-        );
+            Response::renderView(
+                'event-detail',
+                'layout',
+                compact('evento'),
+            );
+        } catch (NotFoundException $notFoundException) {
+            throw new AppException("Evento no encontrado: " . $notFoundException->getMessage(), 404);
+        } catch ( AppException $appException ) {
+            $appException->handleError();
+        }
     }
 
     public function newEvent()
