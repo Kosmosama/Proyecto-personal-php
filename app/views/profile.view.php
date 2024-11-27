@@ -7,10 +7,6 @@ $view = $_GET['view'] ?? null;
         <div class="col-3">
             <div>
                 <img class="w-100" id="avatar" src="<?= $app['user']->getUrlPerfil() ?>" alt="" />
-                <!-- <label class="btn btn-sm btn-danger">
-                    <i class="bi bi-image"></i>
-                    <input type="file" id="photoInput" class="d-none" />
-                </label> -->
             </div>
         </div>
 
@@ -34,10 +30,8 @@ $view = $_GET['view'] ?? null;
 
         <?php if ($view === 'editProfile'): ?>
             <div class="col-9" id="profileForm">
-                <form action="update-username" method="post">
+                <form action="profile/update-username" method="post">
                     <div class="mb-3">
-                        <!-- <label for="email">Email:</label>
-                        <input type="email" class="form-control" name="email" id="email2" placeholder="Email" /> -->
                         <label for="username">Username:</label>
                         <input type="text" class="form-control" name="username" id="username2" placeholder="Username" />
                     </div>
@@ -47,7 +41,7 @@ $view = $_GET['view'] ?? null;
             </div>
         <?php elseif ($view === 'editPassword'): ?>
             <div class="col-9" id="passwordForm">
-                <form action="update-password" method="post">
+                <form action="profile/update-password" method="post">
                     <div class="mb-3">
                         <label for="password">Password:</label>
                         <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
@@ -60,7 +54,7 @@ $view = $_GET['view'] ?? null;
             </div>
         <?php elseif ($view === 'editImage'): ?>
             <div class="col-9" id="imageForm">
-                <form action="update-image" method="post" enctype="multipart/form-data">
+                <form action="profile/update-image" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <input type="file" class="form-control" name="avatar" id="avatar" accept="image/jpeg, image/png, image/gif">
                     </div>

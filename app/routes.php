@@ -2,17 +2,15 @@
 $router->get('', 'PagesController@index');
 $router->get('post', 'PagesController@post');
 
-$router->get('new-event', 'PagesController@newEvent'); // , 'ROLE_ADMIN'
-$router->post('add-event', 'PagesController@addEvent'); // , 'ROLE_ADMIN'
+$router->get('new-event', 'PagesController@newEvent', 'ROLE_ADMIN');
+$router->post('add-event', 'PagesController@addEvent', 'ROLE_ADMIN');
 
-// #TODO place inside event/
-$router->get(':id', 'PagesController@eventDetail'); // , 'ROLE_USER'
+$router->get('event/:id', 'PagesController@eventDetail', 'ROLE_USER');
 
-$router->get('profile', 'PagesController@profile'); // , 'ROLE_USER'
-// #TODO place inside profile/
-$router->post('update-username', 'PagesController@updateUsername'); // , 'ROLE_USER'
-$router->post('update-password', 'PagesController@updatePassword'); // , 'ROLE_USER'
-$router->post('update-image', 'PagesController@updateImage'); // , 'ROLE_USER'
+$router->get('profile', 'PagesController@profile', 'ROLE_USER');
+$router->post('profile/update-username', 'PagesController@updateUsername', 'ROLE_USER');
+$router->post('profile/update-password', 'PagesController@updatePassword', 'ROLE_USER');
+$router->post('profile/update-image', 'PagesController@updateImage', 'ROLE_USER');
 
 $router->get('login', 'AuthController@login');
 $router->get('logout', 'AuthController@logout');

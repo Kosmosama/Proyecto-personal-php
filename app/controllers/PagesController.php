@@ -100,7 +100,6 @@ class PagesController
 
             $message = "Se ha creado el usuario: " . $evento->getNombre();
             App::get('logger')->add($message);
-            FlashMessage::set('message', $message);
 
             App::get('router')->redirect('/?order=alphabetical');
         } catch (ValidationException $validationException) {
@@ -133,6 +132,8 @@ class PagesController
             $usuarioRepo = App::getRepository(UsuariosRepository::class);
             $usuario = $usuarioRepo->getUsuarioPorId($usuarioId);
 
+            $nombreAnterior = $usuario->getUsername();
+
             $usuarioExistente = $usuarioRepo->findOneBy(['username' => $nuevoUsername]);
             if ($usuarioExistente !== null) {
                 throw new ValidationException('El nombre de usuario ya está en uso.');
@@ -142,7 +143,9 @@ class PagesController
             $usuarioRepo->update($usuario);
 
             $_SESSION['loguedUser'] = $usuario->getId();
-            FlashMessage::set('success', 'Nombre de usuario actualizado correctamente.');
+
+            $message = "Se ha actualizado el nombre de usuario: " . $nombreAnterior . " -> " . $nuevoUsername;
+            App::get('logger')->add($message);
 
             App::get('router')->redirect('profile');
         } catch (ValidationException $validationException) {
@@ -173,6 +176,9 @@ class PagesController
             $usuario->setPassword(Security::encrypt($nuevaPassword));
             $usuarioRepo->update($usuario);
 
+            $message = "Se ha actualizado la contraseña del usuario: " . $usuario->getUsername();
+            App::get('logger')->add($message);
+
             App::get('router')->redirect('profile');
         } catch (ValidationException $validationException) {
             FlashMessage::set('update-error', [$validationException->getMessage()]);
@@ -187,24 +193,22 @@ class PagesController
             $usuarioRepo = App::getRepository(UsuariosRepository::class);
             $usuario = $usuarioRepo->getUsuarioPorId($usuarioId);
 
-            // Tipos de archivos permitidos
             $tiposAceptados = ['image/jpeg', 'image/gif', 'image/png'];
             $nuevaImagen = new File('avatar', $tiposAceptados);
 
-            // Guardar la nueva imagen en el servidor
             $nuevaImagen->saveUploadFile(Usuario::RUTA_IMAGENES_PERFIL);
 
-            // Eliminar la imagen anterior, si existe
             $rutaImagenAnterior = $_SERVER['DOCUMENT_ROOT'] . '/' . Usuario::RUTA_IMAGENES_PERFIL . $usuario->getImagen();
             if (is_file($rutaImagenAnterior)) {
                 unlink($rutaImagenAnterior);
             }
 
-            // Actualizar la información del usuario
             $usuario->setImagen($nuevaImagen->getFileName());
             $usuarioRepo->update($usuario);
 
-            FlashMessage::set('success', 'Imagen de perfil actualizada correctamente.');
+            $message = "Se ha actualizado la contraseña del usuario: " . $usuario->getUsername();
+            App::get('logger')->add($message);
+            
             App::get('router')->redirect('profile');
         } catch (FileException $fileException) {
             FlashMessage::set('update-error', [$fileException->getMessage()]);

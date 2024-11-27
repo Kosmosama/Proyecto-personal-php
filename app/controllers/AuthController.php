@@ -50,7 +50,7 @@ class AuthController
                 // Guardamos el usuario en la sesión y redireccionamos a la página principal
                 $_SESSION['loguedUser'] = $usuario->getId();
                 FlashMessage::unset('username');
-                App::get('router')->redirect('');
+                App::get('router')->redirect('?order=alphabetical');
             }
             throw new ValidationException('El usuario y el password introducidos no existen');
         } catch (ValidationException $validationException) {

@@ -1,14 +1,12 @@
 <?php
-    use kosmoproyecto\app\entity\Usuario;
     use kosmoproyecto\app\utils\Utils;
-    // $user = new Usuario();
 ?>
 
 <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/?order=alphabetical">SVTickets</a>
 
-        <?php if (!is_null($app['user'])) : ?> <!-- $app['user'] -->
+        <?php if (!is_null($app['user'])) : ?> 
             <ul class="navbar-nav me-auto mb-lg-0">
                 <li class="nav-item <?= Utils::esOpcionMenuActiva('/') ? 'active' : '' ?>">
                     <a class="nav-link" href="/?order=alphabetical">Events</a>
@@ -24,7 +22,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout" id="/logout">Logout (<?= $app['user']->getUsername() ?>)</a> <!-- $app['user'] -->
+                    <a class="nav-link" href="/logout" id="/logout">Logout (<?= $app['user']->getUsername() ?>)</a>
                 </li>
             </ul>
         <?php else : ?>

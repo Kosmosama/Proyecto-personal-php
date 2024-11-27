@@ -6,11 +6,6 @@
             <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Enter title">
             <div class="invalid-feedback">Title is required and can only contain letters and spaces.</div>
         </div>
-        <!-- <div class="mb-3">
-            <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control" id="date" name="date">
-            <div class="invalid-feedback">Date is required.</div>
-        </div> -->
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
@@ -26,9 +21,6 @@
             <input type="file" class="form-control" id="image" name="image">
             <div class="invalid-feedback">An image is required.</div>
         </div>
-        <!-- <img src="" alt="" id="imgPreview" class="img-thumbnail mb-3 d-none">
-        <div id="autocomplete" class="autocomplete-container"></div>
-        <div id="map" class="mb-3"></div> -->
         <div>
             <button type="submit" class="btn btn-primary">Create</button>
         </div>
