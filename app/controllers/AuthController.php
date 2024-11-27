@@ -2,12 +2,8 @@
 
 namespace kosmoproyecto\app\controllers;
 
-use kosmoproyecto\app\entity\Imagen;
 use kosmoproyecto\app\entity\Usuario;
-use kosmoproyecto\app\exceptions\FileException;
 use kosmoproyecto\app\exceptions\ValidationException;
-use kosmoproyecto\app\repository\AsociadosRepository;
-use kosmoproyecto\app\repository\ImagenesRepository;
 use kosmoproyecto\app\repository\UsuariosRepository;
 use kosmoproyecto\app\utils\File;
 use kosmoproyecto\core\App;
@@ -89,27 +85,35 @@ class AuthController
             if (!isset($_POST['repassword']) || empty($_POST['repassword']) || $_POST['password'] !== $_POST['repassword'])
                 throw new ValidationException('Los dos password deben ser iguales');
 
-            $password = Security::encrypt($_POST['password']);
-
-            $tiposAceptados = ['image/jpeg', 'image/gif', 'image/png'];
-            $avatar = new File('avatar', $tiposAceptados);
-
-            $avatar->saveUploadFile(Usuario::RUTA_IMAGENES_PERFIL);
-
-            $usuario = new Usuario();
-            $usuario->setUsername($_POST['username']);
-            $usuario->setRole('ROLE_USER');
-            $usuario->setPassword($password);
-            $usuario->setImagen($avatar->getFileName());
-
-            App::getRepository(UsuariosRepository::class)->save($usuario);
-
-            FlashMessage::unset('username');
-            $mensaje = "Se ha creado el usuario: " . $usuario->getUsername();
-            App::get('logger')->add($mensaje);
-            FlashMessage::set('mensaje', $mensaje);
-
-            App::get('router')->redirect('login');
+                $username = $_POST['username'];
+                $password = Security::encrypt($_POST['password']);
+        
+                $usuarioRepo = App::getRepository(UsuariosRepository::class);
+                $usuarioExistente = $usuarioRepo->findOneBy(['username' => $username]);
+        
+                if ($usuarioExistente !== null) {
+                    throw new ValidationException('El nombre de usuario ya está en uso.');
+                }
+        
+                $tiposAceptados = ['image/jpeg', 'image/gif', 'image/png'];
+                $avatar = new File('avatar', $tiposAceptados);
+        
+                $avatar->saveUploadFile(Usuario::RUTA_IMAGENES_PERFIL);
+        
+                $usuario = new Usuario();
+                $usuario->setUsername($username);
+                $usuario->setRole('ROLE_USER');
+                $usuario->setPassword($password);
+                $usuario->setImagen($avatar->getFileName());
+        
+                $usuarioRepo->save($usuario);
+        
+                FlashMessage::unset('username');
+                $mensaje = "Se ha creado el usuario: " . $usuario->getUsername();
+                App::get('logger')->add($mensaje);
+                FlashMessage::set('mensaje', $mensaje);
+        
+                App::get('router')->redirect('login');
         } catch (ValidationException $validationException) {
             FlashMessage::set('register-error', [$validationException->getMessage()]);
             App::get('router')->redirect('register');

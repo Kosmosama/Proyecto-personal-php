@@ -15,7 +15,7 @@ abstract class QueryBuilder
      * @var PDO
      */
     private $connection;
-    private $table;
+    protected $table;
     private $classEntity;
     public function __construct(string $table, string $classEntity)
     {
@@ -57,7 +57,7 @@ abstract class QueryBuilder
      * @return array
      * @throws QueryException
      */
-    private function executeQuery(string $sql, array $parameters = []): array
+    protected function executeQuery(string $sql, array $parameters = []): array
     {
         $pdoStatement = $this->connection->prepare($sql);
         if ($pdoStatement->execute($parameters) === false)

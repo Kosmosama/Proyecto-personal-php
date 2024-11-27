@@ -3,7 +3,6 @@ namespace kosmoproyecto\app\repository;
 
 use kosmoproyecto\core\database\QueryBuilder;
 use kosmoproyecto\app\entity\Usuario;
-
 use kosmoproyecto\app\exceptions\NotFoundException;
 use kosmoproyecto\app\exceptions\QueryException;
 

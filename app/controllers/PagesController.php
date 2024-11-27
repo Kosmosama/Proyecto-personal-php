@@ -1,13 +1,9 @@
 <?php
 namespace kosmoproyecto\app\controllers;
 
-use kosmoproyecto\app\entity\Asociado;
 use kosmoproyecto\app\entity\Evento;
-use kosmoproyecto\app\entity\Imagen;
 use kosmoproyecto\app\exceptions\ValidationException;
-use kosmoproyecto\app\repository\AsociadosRepository;
 use kosmoproyecto\app\repository\EventosRepository;
-use kosmoproyecto\app\repository\ImagenesRepository;
 use kosmoproyecto\app\utils\File;
 use kosmoproyecto\core\App;
 use kosmoproyecto\core\helpers\FlashMessage;
@@ -17,12 +13,27 @@ class PagesController
 {
     public function index()
     {
-        $eventos = App::getRepository(EventosRepository::class)->findAll();
+        $order = $_GET['order'] ?? null;
+        $search = $_GET['search'] ?? null;
+
+        $repository = App::getRepository(EventosRepository::class);
+
+        if ($search) {
+            $eventos = $repository->searchByName($search);
+        } else {
+            $eventos = $repository->findAll();
+        }
+
+        if ($order === 'alphabetical') {
+            usort($eventos, fn($a, $b) => strcmp($a->getNombre(), $b->getNombre()));
+        } elseif ($order === 'price') {
+            usort($eventos, fn($a, $b) => $a->getPrecio() <=> $b->getPrecio());
+        }
 
         Response::renderView(
             'index',
             'layout',
-            compact('eventos'),
+            compact('eventos', 'order', 'search'),
         );
     }
 
@@ -87,7 +98,7 @@ class PagesController
             App::get('logger')->add($message);
             FlashMessage::set('message', $message);
 
-            App::get('router')->redirect('');
+            App::get('router')->redirect('/?order=alphabetical');
         } catch (ValidationException $validationException) {
             FlashMessage::set('new-event-error', [$validationException->getMessage()]);
             App::get('router')->redirect('new-event');

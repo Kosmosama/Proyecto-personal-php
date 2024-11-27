@@ -6,12 +6,12 @@
 
 <nav class="navbar navbar-expand navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">SVTickets</a>
+        <a class="navbar-brand" href="/?order=alphabetical">SVTickets</a>
 
         <?php if (!is_null($app['user'])) : ?> <!-- $app['user'] -->
             <ul class="navbar-nav me-auto mb-lg-0">
                 <li class="nav-item <?= Utils::esOpcionMenuActiva('/') ? 'active' : '' ?>">
-                    <a class="nav-link" href="/">Events</a>
+                    <a class="nav-link" href="/?order=alphabetical">Events</a>
                 </li>
                 <?php if ($app['user']->getRole() === 'ROLE_ADMIN') : ?>
                     <li class="nav-item <?= Utils::esOpcionMenuActiva('/new-event') ? 'active' : '' ?>">
