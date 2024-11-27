@@ -6,12 +6,8 @@ class Utils
 {
     public static function esOpcionMenuActiva($opcion): bool
     {
-        $actual = $_SERVER['REQUEST_URI'];
-        if ($actual === $opcion) {
-            return true;
-        } else {
-            return false;
-        }
+        $actual = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        return $actual === $opcion;
     }
 
     public static function existeOpcionMenuActivaEnArray($opciones): bool

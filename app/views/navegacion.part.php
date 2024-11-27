@@ -8,16 +8,16 @@
 
         <?php if (!is_null($app['user'])) : ?> 
             <ul class="navbar-nav me-auto mb-lg-0">
-                <li class="nav-item <?= Utils::esOpcionMenuActiva('/') ? 'active' : '' ?>">
-                    <a class="nav-link" href="/?order=alphabetical">Events</a>
+                <li class="nav-item">
+                    <a class="nav-link <?= Utils::esOpcionMenuActiva('/') ? 'active' : '' ?>" href="/?order=alphabetical">Events</a>
                 </li>
                 <?php if ($app['user']->getRole() === 'ROLE_ADMIN') : ?>
-                    <li class="nav-item <?= Utils::esOpcionMenuActiva('/new-event') ? 'active' : '' ?>">
-                        <a class="nav-link" href="/new-event">New event</a>
+                    <li class="nav-item">
+                        <a class="nav-link <?= Utils::esOpcionMenuActiva('/new-event') ? 'active' : '' ?>" href="/new-event">New event</a>
                     </li>
                 <?php endif; ?>
-                <li class="nav-item <?= Utils::esOpcionMenuActiva('/profile') ? 'active' : '' ?>">
-                    <a class="nav-link" href="/profile">My profile</a>
+                <li class="nav-item">
+                    <a class="nav-link <?= Utils::esOpcionMenuActiva('/profile') ? 'active' : '' ?>" href="/profile">My profile</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
@@ -27,11 +27,11 @@
             </ul>
         <?php else : ?>
             <ul class="navbar-nav">
-                <li class="nav-item <?= Utils::esOpcionMenuActiva('/login') ? 'active' : '' ?>">
-                    <a class="nav-link" href="/login">Login</a>
+                <li class="nav-item">
+                    <a class="nav-link <?= Utils::esOpcionMenuActiva('/login') ? 'active' : '' ?>" href="/login">Login</a>
                 </li>
-                <li class="nav-item <?= Utils::esOpcionMenuActiva('/register') ? 'active' : '' ?>">
-                    <a class="nav-link" href="/register">Register</a>
+                <li class="nav-item">
+                    <a class="nav-link <?= Utils::esOpcionMenuActiva('/register') ? 'active' : '' ?>" href="/register">Register</a>
                 </li>
             </ul>
         <?php endif; ?>
