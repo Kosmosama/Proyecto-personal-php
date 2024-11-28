@@ -74,46 +74,56 @@ class AuthController
     public function checkRegister()
     {
         try {
+            session_start();
+
             if (!isset($_POST['username']) || empty($_POST['username']))
                 throw new ValidationException('El nombre de usuario no puede estar vacío');
-
+        
             FlashMessage::set('username', $_POST['username']);
-
+        
             if (!isset($_POST['password']) || empty($_POST['password']))
                 throw new ValidationException('El password de usuario no puede estar vacío');
-
+    
             if (!isset($_POST['repassword']) || empty($_POST['repassword']) || $_POST['password'] !== $_POST['repassword'])
                 throw new ValidationException('Los dos password deben ser iguales');
 
-                $username = $_POST['username'];
-                $password = Security::encrypt($_POST['password']);
-        
-                $usuarioRepo = App::getRepository(UsuariosRepository::class);
-                $usuarioExistente = $usuarioRepo->findOneBy(['username' => $username]);
-        
-                if ($usuarioExistente !== null) {
-                    throw new ValidationException('El nombre de usuario ya está en uso.');
+            if (isset($_POST['captcha']) && ($_POST['captcha'] != "")) {
+                if ($_SESSION['captchaGenerado'] != $_POST['captcha']) {
+                    throw new ValidationException("¡Ha introducido un código de seguridad incorrecto! Inténtelo de nuevo.");
                 }
-        
-                $tiposAceptados = ['image/jpeg', 'image/gif', 'image/png'];
-                $avatar = new File('avatar', $tiposAceptados);
-        
-                $avatar->saveUploadFile(Usuario::RUTA_IMAGENES_PERFIL);
-        
-                $usuario = new Usuario();
-                $usuario->setUsername($username);
-                $usuario->setRole('ROLE_USER');
-                $usuario->setPassword($password);
-                $usuario->setImagen($avatar->getFileName());
-        
-                $usuarioRepo->save($usuario);
-        
-                FlashMessage::unset('username');
-                $mensaje = "Se ha creado el usuario: " . $usuario->getUsername();
-                App::get('logger')->add($mensaje);
-                FlashMessage::set('mensaje', $mensaje);
-        
-                App::get('router')->redirect('login');
+            } else {
+                throw new ValidationException("Introduzca el código de seguridad.");
+            }
+
+            $username = $_POST['username'];
+            $password = Security::encrypt($_POST['password']);
+    
+            $usuarioRepo = App::getRepository(UsuariosRepository::class);
+            $usuarioExistente = $usuarioRepo->findOneBy(['username' => $username]);
+    
+            if ($usuarioExistente !== null) {
+                throw new ValidationException('El nombre de usuario ya está en uso.');
+            }
+    
+            $tiposAceptados = ['image/jpeg', 'image/gif', 'image/png'];
+            $avatar = new File('avatar', $tiposAceptados);
+    
+            $avatar->saveUploadFile(Usuario::RUTA_IMAGENES_PERFIL);
+    
+            $usuario = new Usuario();
+            $usuario->setUsername($username);
+            $usuario->setRole('ROLE_USER');
+            $usuario->setPassword($password);
+            $usuario->setImagen($avatar->getFileName());
+    
+            $usuarioRepo->save($usuario);
+    
+            FlashMessage::unset('username');
+            $mensaje = "Se ha creado el usuario: " . $usuario->getUsername();
+            App::get('logger')->add($mensaje);
+            FlashMessage::set('mensaje', $mensaje);
+    
+            App::get('router')->redirect('login');
         } catch (ValidationException $validationException) {
             FlashMessage::set('register-error', [$validationException->getMessage()]);
             App::get('router')->redirect('register');

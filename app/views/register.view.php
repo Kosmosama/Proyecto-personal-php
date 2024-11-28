@@ -16,9 +16,15 @@
             <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Repeat password" />
         </div>
         <div class="mb-3">
-            <label for="avatar">Avatar image</label>
+            <label for="avatar">Avatar image:</label>
             <input type="file" class="form-control" id="avatar" name="avatar" />
         </div>
+        <div class="mb-3">
+            <label for="captcha">Captcha:</label>
+            <img style="border: 1px solid #D3D0D0" src="/app/utils/Captcha.php" id='captcha'>
+            <input type="text" class="form-control" id="captcha" name="captcha" placeholder="Captcha" />
+        </div>
+
         <a class="btn btn-secondary" href="/login" role="button">Go back</a>
         <button type="submit" class="btn btn-primary">Create account</button>
     </form>
