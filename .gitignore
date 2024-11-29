@@ -25,3 +25,5 @@ dist-ssr
 
 # Non automatic
 vendor
+imagenes_perfil/
+imagenes_subidas/

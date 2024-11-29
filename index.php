@@ -8,6 +8,6 @@ use kosmoproyecto\core\Request;
 try {
     require_once 'core/Bootstrap.php';
     App::get('router')->direct(Request::uri(), Request::method());
-}catch ( AppException $appException ) {
-    $appException->handleError();
+} catch (NotFoundException $notFoundException) {
+    (new AppException('Página no encontrada', 404))->handleError();
 }
