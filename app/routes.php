@@ -1,6 +1,5 @@
 <?php
 $router->get('', 'PagesController@index');
-$router->get('post', 'PagesController@post');
 
 $router->get('new-event', 'PagesController@newEvent', 'ROLE_ADMIN');
 $router->post('add-event', 'PagesController@addEvent', 'ROLE_ADMIN');

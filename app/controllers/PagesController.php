@@ -106,13 +106,13 @@ class PagesController
             FlashMessage::unset('description');
             FlashMessage::unset('price');
 
-            $message = "Se ha creado el usuario: " . $evento->getNombre();
+            $message = "Se ha creado el evento: " . $evento->getNombre();
             App::get('logger')->add($message);
 
-            App::get('router')->redirect('/?order=alphabetical');
+            App::get('router')->redirect('?order=alphabetical');
         } catch (ValidationException $validationException) {
             FlashMessage::set('new-event-error', [$validationException->getMessage()]);
-            App::get('router')->redirect('new-event');
+            App::get('router')->redirect('/new-event');
         }
     }
 
