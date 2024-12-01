@@ -21,7 +21,6 @@ class App
     }
     /**
      * @param string $key
-     * @return mixed
      * @throws AppException
      */
     public static function get(string $key)
